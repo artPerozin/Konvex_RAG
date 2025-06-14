@@ -36,16 +36,16 @@ class QueryRequest(BaseModel):
     question: str
     top_k: int = 2
 
-@app.post("/documents/", response_model=DocumentOut)
-def add_document(doc: DocumentIn):
-    embedding = model.encode([doc.content])[0].astype(np.float32)
-    id_ = doc_store.add_document(doc.content, embedding)
-    return {"id": id_, "content": doc.content}
-
 @app.get("/documents/", response_model=List[DocumentOut])
 def get_all_documents():
-    return [{"id": d[0], "content": d[1]} for d in doc_store.documents]
-
+    try:
+        db_connection.cur.execute("SELECT id, content FROM documents")
+        rows = db_connection.cur.fetchall()
+        documents = [{"id": row[0], "content": row[1]} for row in rows]
+        return documents
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 @app.post("/upload_pdf/", response_model=List[DocumentOut])
 def upload_pdf(file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):

@@ -69,11 +69,6 @@ Este projeto oferece uma API para:
     pip install -r requirements.txt
     ```
 
-4. **Configure suas variáveis de ambiente** criando um arquivo `.env` na raiz do projeto:
-    ```ini
-    OPENAI_API_KEY=sua_api_key_aqui
-    ```
-
 ---
 
 ## ▶️ Como Rodar
@@ -83,10 +78,6 @@ Para iniciar o servidor FastAPI localmente:
 ```bash
 uvicorn rag_api:app --reload
 ```
-
-O servidor estará disponível em [http://127.0.0.1:8000](http://127.0.0.1:8000).
-
----
 
 ## 📚 Endpoints Principais
 
